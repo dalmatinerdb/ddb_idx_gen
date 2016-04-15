@@ -7,7 +7,8 @@
    [kernel,
     stdlib,
     dqe_idx,
-    %%dqe_idx_pg,
+    dproto,
+    dqe_idx_pg,
     dqe_idx_ddb,
     ddb_client
    ]},
