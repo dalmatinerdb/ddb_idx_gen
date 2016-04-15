@@ -5,7 +5,11 @@
   {mod, { ddb_idx_gen_app, []}},
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+    dqe_idx,
+    %%dqe_idx_pg,
+    dqe_idx_ddb,
+    ddb_client
    ]},
   {env,[]},
   {modules, []},
