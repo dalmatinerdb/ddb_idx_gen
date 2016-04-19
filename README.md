@@ -14,23 +14,27 @@ Running
 this is still a bit of a manual process but a good starting point:
 
 ```erlang
-%% Preparation
-ddb_idx_gen:start().
-application:set_env(dqe, lookup_module, dqe_idx_pg).
-application:ensure_all_started(dqe_idx_pg).
 
-%% SQL
-pgapp:connect([{size, 10}, {database, "metric_metadata"}, {username, "ddb"}, {password, "ddb"}, {host, "192.168.1.43"}]).
+%% Setup
 
-%% Configuration
-Host = "192.168.1.43", Port = 5555, Bucket = <<"fifo">>, Collection = <<"fifo">>.
+application:set_env(dqe, max_read, 1209600).
+application:set_env(dqe, get_chunk, 100000).
+application:set_env(dqe_idx, lookup_module, dqe_idx_pg).
+application:set_env(ddb_connection, backend, {"192.168.1.43", 5555}).
+application:set_env(ddb_connection, pool_size, 5).
+application:set_env(ddb_connection, pool_max, 5).
+
+Host = "192.168.1.43", Port = 5555, Bucket = <<"fifo">>.
 Glob = ['*', '*', '*', '*', '*'].
 Translation = {[<<"action">>, 5], [{<<"service">>, 2}, {<<"entity">>, 3}, {<<"operation">>, 4}, {<<"host">>, 1}]}.
 
-%% Execution
+ddb_idx_gen:start().
+
+pgapp:connect([{size, 10}, {database, "metric_metadata"}, {username, "ddb"}, {password, "ddb"}, {host, "192.168.1.43"}]).
+
 {ok, Metrics} = ddb_idx_gen:metrics(Host, Port, Bucket).
 {ok, Tagged} = ddb_idx_gen:convert(Metrics, Glob, Translation).
-ddb_idx_gen:insert_metrics(Collection, Tagged).
+ddb_idx_gen:insert_metrics(<<"fifo">>, Tagged).
 
 ```
 * Translations are a couple

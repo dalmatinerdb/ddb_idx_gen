@@ -1,5 +1,6 @@
 -module(ddb_idx_gen).
 -export([start/0, buckets/2, metrics/3, convert/3, insert_metrics/2]).
+-include_lib("dproto/include/dproto.hrl").
 
 start() ->
     application:ensure_all_started(?MODULE).
@@ -29,7 +30,17 @@ insert_metrics(Collection, Keys) ->
 
 translate_metric(KeyL, {Base, Tags}) ->
     {dproto:metric_from_list(translate_base(KeyL, Base, [])),
-     translate_tags(KeyL, Tags, [])}.
+     translate_tags(KeyL, Tags, ddb_tags(KeyL))}.
+
+ddb_tags(KeyL) ->
+    ddb_tags(KeyL, 1, [{<<"ddb">>, <<"key_length">>,
+                        integer_to_binary(length(KeyL))}]).
+ddb_tags([], _, Tags) ->
+    Tags;
+ddb_tags([E | R], N, Tags) ->
+    PosBin = integer_to_binary(N),
+    T = {<<"ddb">>, <<"part_", PosBin/binary>>, E},
+    ddb_tags(R, N + 1, [T | Tags]).
 
 translate_base(_Metric, [], Acc) ->
     lists:reverse(Acc);
@@ -41,12 +52,21 @@ translate_base(Metric, [N | R], Acc) when is_integer(N) ->
 translate_tags(_Metric, [], Acc) ->
     lists:reverse(Acc);
 translate_tags(Metric, [{Name, E} | R], Acc) when is_binary(E) ->
-    translate_tags(Metric,  R, [{Name, E} | Acc]);
+    translate_tags(Metric,  R, [{<<>>, Name, E} | Acc]);
 translate_tags(Metric, [{Name, N} | R], Acc) when is_integer(N) ->
-    translate_tags(Metric,  R, [{Name, lists:nth(N, Metric)} | Acc]).
+    translate_tags(Metric,  R, [{<<>>, Name, lists:nth(N, Metric)} | Acc]).
 
 matcher(Glob) ->
-    C = length(Glob),
-    fun ({_, Metric}) ->
-            length(Metric) == C
+    fun ({Metric, _}) ->
+            rmatch(Glob, Metric)
     end.
+
+
+rmatch(['*' | Rm], <<_S:?METRIC_ELEMENT_SS/?SIZE_TYPE, _:_S/binary, Rb/binary>>) ->
+    rmatch(Rm, Rb);
+rmatch([_M | Rm], <<_S:?METRIC_ELEMENT_SS/?SIZE_TYPE, _M:_S/binary, Rb/binary>>) ->
+    rmatch(Rm, Rb);
+rmatch([], <<>>) ->
+    true;
+rmatch(_, _) ->
+    false.
