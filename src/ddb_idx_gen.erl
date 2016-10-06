@@ -1,5 +1,6 @@
 -module(ddb_idx_gen).
 -export([start/0, buckets/2, metrics/3, convert/3, insert_metrics/2]).
+-ignore_xref([start/0, buckets/2, metrics/3, convert/3, insert_metrics/2]).
 -include_lib("dproto/include/dproto.hrl").
 
 -type bucket() :: binary().
