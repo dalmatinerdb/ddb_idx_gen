@@ -1,7 +1,7 @@
+{"1.1.0",
 [{<<"ddb_client">>,{pkg,<<"ddb_client">>,<<"0.1.20">>},0},
  {<<"ddb_connection">>,{pkg,<<"ddb_connection">>,<<"0.1.1">>},1},
  {<<"dproto">>,{pkg,<<"dproto">>,<<"0.1.14">>},0},
- {<<"dqe_idx">>,{pkg,<<"dqe_idx">>,<<"0.1.12">>},0},
  {<<"dqe_idx_ddb">>,{pkg,<<"dqe_idx_ddb">>,<<"0.1.9">>},0},
  {<<"dqe_idx_pg">>,{pkg,<<"dqe_idx_pg">>,<<"0.1.18">>},0},
  {<<"epgsql">>,{pkg,<<"epgsql">>,<<"3.1.1">>},2},
@@ -9,4 +9,18 @@
  {<<"lager">>,{pkg,<<"lager">>,<<"2.1.1">>},1},
  {<<"mmath">>,{pkg,<<"mmath">>,<<"0.1.16">>},1},
  {<<"pgapp">>,{pkg,<<"pgapp">>,<<"0.0.1">>},1},
- {<<"poolboy">>,{pkg,<<"poolboy">>,<<"1.5.1">>},2}].
+ {<<"poolboy">>,{pkg,<<"poolboy">>,<<"1.5.1">>},2}]}.
+[
+{pkg_hash,[
+ {<<"ddb_client">>, <<"C77EC34DB176361B7A163671CE130FEE756A1C4A45234D3C04EE2DAA73C7D0AB">>},
+ {<<"ddb_connection">>, <<"69D0B49D8378AAFC4FB60BB6C23917E96E91B1109BF5AD70557E5BFA0AF88997">>},
+ {<<"dproto">>, <<"4150F286304C95803FD4C9F988F5F944BD4EA077EA617EB6228F4A2DF16D83BB">>},
+ {<<"dqe_idx_ddb">>, <<"AA91D8D468D3245488DA42E468950EC96D2FEB4502243205D7568C9F93708A26">>},
+ {<<"dqe_idx_pg">>, <<"951F41EFE7B694D17D8B3ECA0FA833FE893B712A418807E0C271D79A821D1B6D">>},
+ {<<"epgsql">>, <<"DE16186C279FB73217C0666C7A21323D613EDA9395B56E122AA1B262815ADF06">>},
+ {<<"goldrush">>, <<"349A351D17C71C2FDAA18A6C2697562ABE136FEC945F147B381F0CF313160228">>},
+ {<<"lager">>, <<"8E389F916384ABF5F62169969BD7515C4C252CBBDA53FEEBBEF90F47DB5EAAD1">>},
+ {<<"mmath">>, <<"C1D59DC3477D43AF02DCA4395BA884C07E4C37F0398936BEF23E6E64264FF7B9">>},
+ {<<"pgapp">>, <<"241E745276AFDEFF1A5911C1463BC6359AC39E874BFE324C52F24DA9BF78FA51">>},
+ {<<"poolboy">>, <<"6B46163901CFD0A1B43D692657ED9D7E599853B3B21B95AE5AE0A777CF9B6CA8">>}]}
+].
